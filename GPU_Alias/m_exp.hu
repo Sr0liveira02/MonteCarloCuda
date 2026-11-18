@@ -1,0 +1,17 @@
+#ifndef MATRIX_EXP_HU
+#define MATRIX_EXP_HU
+
+#include "matrix_init.hu"
+#include "matrix_utils.hu"
+#include "AliasTable.hu"
+#include <curand.h>
+#include <curand_kernel.h>
+
+// TODO exp Matrix global e calculate row device as it is to be optimized as hell
+__host__ float* expMatrix(arrayOfAliasTable* mat, float* vector, int n_series, int n_plays, int size, int* series);
+__global__ void calculate_all_rows(const arrayOfAliasTableConst* __restrict__ mat, int n_series, int n_plays, float* __restrict__ ret, const float* __restrict__ vector, curandState* rand_states, int* series);
+__device__ int weighted_random(const arrayOfAliasTableConst* __restrict__ mat, int row, curandState* state);
+__host__ int factorial(int n);
+void checkCudaError();
+
+#endif // MATRIX_EXP_HU

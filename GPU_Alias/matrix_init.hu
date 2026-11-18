@@ -1,0 +1,18 @@
+#ifndef MATRIX_INIT_H
+#define MATRIX_INIT_H
+
+#include <hdf5.h>
+
+struct CSRInput {
+    int size;
+    int edges;
+    float* values;
+    int*   col_ind;
+    int*   row_ptr;
+};
+
+__host__ CSRInput load_csr_hdf5(const char* path);
+__host__ void write_vector_to_file(float* vector, int size, char* filename);
+__host__ void free_csr(CSRInput& A);
+
+#endif // MATRIX_INIT_H

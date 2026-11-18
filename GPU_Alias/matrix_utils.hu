@@ -1,0 +1,11 @@
+#ifndef MATRIX_UTILS_H
+#define MATRIX_UTILS_H
+
+#include "matrix_init.hu"
+
+__host__ void print_matrixf(CSRInput mat);
+__host__ void print_matrix(float* mat, int size);
+__host__ void calculate_row_sum(CSRInput& mat, float* precalcualted_rows);
+__host__ void matrix_divide(CSRInput& mat);
+
+#endif // MATRIX_UTILS_H

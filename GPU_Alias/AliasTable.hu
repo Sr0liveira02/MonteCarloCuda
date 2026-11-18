@@ -1,0 +1,37 @@
+#ifndef ALIASTABLE_H
+#define ALIASTABLE_H
+
+#include "matrix_init.hu"
+
+typedef struct {
+    int N;
+    int E;
+    float* sum;
+    int* cum;
+    float* prob;
+    int* alias;
+    int* col;
+} arrayOfAliasTable;
+
+typedef struct {
+    int N;
+    int E;
+    const float* __restrict__ sum;
+    const int* __restrict__ cum;
+    const float* __restrict__ prob;
+    const int* __restrict__ alias;
+    const int* __restrict__ col;
+} arrayOfAliasTableConst;
+
+static __host__ CSRInput csr_to_device(CSRInput host);
+static __host__ void csr_free_device(CSRInput dev);
+int get_max_large_N(const int* row_ptr, int num_rows);
+static __host__ arrayOfAliasTable* device_array_alloc(int size, int edges);
+__global__ void build_alias_table_kernel(const int* row_ptr, const int* col_ind, const float* values, int num_rows, float* d_sum, const int* d_cum, float* d_prob, int* d_alias, int* d_col);
+__global__ void build_alias_table_kernel_large(const int* row_ptr, const int* col_ind, const float* values, int num_rows, float* d_sum, const int* d_cum, float* d_prob, int* d_alias, int* d_col, float* scratch_f, int* scratch_ll, int max_large_N);
+__host__ arrayOfAliasTable* generate_array_aliastable_gpu(CSRInput host_csr);
+__host__ arrayOfAliasTable* push_struct_to_device(arrayOfAliasTable* host_shell);
+__host__ void free_array_aliastable_gpu(arrayOfAliasTable* d_ptr);
+__host__ void print_AliasTable1f(arrayOfAliasTable* mat);
+
+#endif
